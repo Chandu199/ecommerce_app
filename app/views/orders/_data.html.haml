@@ -1,0 +1,12 @@
+%h1 Checkout
+%h2 You have the following items in your cart.
+%ul
+	-order.order_items.each do |item|
+		%li
+			%en=item.quantity 
+			=item.product.name
+			=number_to_currency item.total_price
+%p
+	%strong
+		Total Price:
+		=number_to_currency order.total_price

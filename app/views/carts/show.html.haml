@@ -1,0 +1,17 @@
+%table.table.table-hover
+	%thead
+		%tr
+			%th Quantity
+			%th Name
+			%th Total
+	-@cart.items.each do |item|
+		%tr
+			%td= item.quantity
+			%td
+				=image_tag item.product.image.thumb
+				=link_to item.product.name, item.product
+			%td= item.total_price
+
+%p= @cart.total_price
+
+%p= link_to "Checkout", checkout_cart_path, class:"btn btn-primary"

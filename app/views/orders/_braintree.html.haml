@@ -1,0 +1,6 @@
+:javascript
+	var clientToken = "#{@client_token}";
+
+	braintree.setup(clientToken, "dropin", {
+		container: "payment-form"
+	});

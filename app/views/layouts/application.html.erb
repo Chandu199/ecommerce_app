@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ECommerce</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script src="https://js.braintreegateway.com/js/braintree-2.31.0.min.js"></script>
+
+</head>
+<body>
+<%= render 'partials/nav' %>
+<div class="container">
+	<%= content_tag :div,notice, class: "bg-success"%>
+	<%= content_tag :div,alert, class: "bg-danger"%>
+	<%= yield %>	
+</div>
+
+
+
+</body>
+</html>

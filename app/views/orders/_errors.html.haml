@@ -1,0 +1,6 @@
+-if @order_form.has_errors?
+	.panel.panel-danger
+		.panel-heading
+			%h4.panel-title We have found some of the errors
+		.panel-body
+			=@order_form.errors.full_messages

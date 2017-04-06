@@ -1,0 +1,6 @@
+-if @cart
+	%p.navbar-text.navbar-right
+		-if @cart.empty?
+			Cart is empty.
+		-else
+			=link_to "You have #{pluralize @cart.items.length,"item"}",cart_path
