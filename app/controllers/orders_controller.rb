@@ -1,6 +1,10 @@
 class OrdersController < ApplicationController
 	before_action :initialize_cart
 
+	def index
+		@orders = Order.order(created_at: :desc).all
+	end
+
 	def create
 		@order_form = OrderForm.new(
 			user: User.new(order_params[:user]), 
@@ -19,6 +23,17 @@ class OrdersController < ApplicationController
 		end
 	end
 
+	def update
+		@order = Order.find(params[:id])
+		@prev_state = @order.state
+		if @order.update(state_order_params)
+			notify_user_about_state
+			flash[:notice] = "Order Updated"
+			redirect_to orders_path
+		end
+
+	end
+
 	def new_payment
 		@order = Order.find(params[:id])
 		@client_token = Braintree::ClientToken.generate
@@ -33,6 +48,10 @@ class OrdersController < ApplicationController
 		else
 			 render "orders/new_payment"
 		end
+	end
+
+	def notify_user_about_state
+		OrderMailer.state_changed(@order,@prev_state).deliver
 	end
 
 
@@ -52,5 +71,9 @@ class OrdersController < ApplicationController
 		transaction = OrderTransaction.new @order,params[:payment_method_nonce]
 		transaction.execute
 		transaction.ok?
+	end
+
+	def state_order_params
+		params.require(:order).permit(:state)
 	end
 end

@@ -13,6 +13,9 @@
     = f.label :price
     = f.text_field :price
   .field
+    =f.label :Category
+    =f.select :category_id, Category.all.map {|c| [c.name,c.id] }
+  .field
     = f.label :image
     = f.file_field :image
   .actions

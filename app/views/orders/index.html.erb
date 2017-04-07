@@ -1,0 +1,48 @@
+<h1> All order <h1>
+<table class="table table-hover">
+	<thead>
+		<tr>Id</tr>
+		<tr>Products</tr>
+		<tr>Total</tr>
+		<tr>Use</tr>
+		<tr>Data</tr>
+		<tr></tr>
+	</thead>
+	<% @orders.each do |order| %>
+		<tr>
+			<td><%= order.id %></td>
+			<td>
+			<ul>
+			 <% order.order_items.each do |item| %>
+			 		<li><%= item.quantity %></li>
+			 		<li><%= item.product.name %></li>
+				<% end %>
+			</ul>
+			</td>
+			<td><%= number_to_currency order.total_price %></td>
+			<td>
+				<address>
+					<strong><%= order.user.name rescue nil?%></strong> <br/>
+					<%= simple_format order.user.full_name rescue nil? %>
+				</address>
+			 </td>
+			 <td>
+			 <p> <%= time_ago_in_words order.created_at %></p>
+			 <p class="text-muted"> <%= order.created_at.strftime("%b %d,%Y- %H:%M") %></p>
+			 </td>
+			 <td>
+			 	<%= form_for order do |f| %>
+			 		<%= f.select :state,  Order::STATES %>
+			 	<% end %>
+			 </td>
+		</tr>
+	<% end %>
+</table>
+
+<script>
+	$(function(){
+		$("form select").on("change",function(){
+			$(this).parent("form").submit();
+		});
+	})
+</script>
